@@ -33,7 +33,7 @@ public interface ExpenseControllerDoc {
     @ApiResponse(
             responseCode = "500",
             description = "Error retrieving expenses.",
-            content = @Content
+            content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
     )
 
     ResponseEntity<List<ExpenseResponseDTO>> getExpense();
@@ -49,7 +49,7 @@ public interface ExpenseControllerDoc {
     @ApiResponse(
             responseCode = "400",
             description = "Invalid expense payload.",
-            content = @Content
+            content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
     )
     @ApiResponse(
             responseCode = "404",
