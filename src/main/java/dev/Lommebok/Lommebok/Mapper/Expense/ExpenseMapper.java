@@ -1,6 +1,7 @@
 package dev.Lommebok.Lommebok.Mapper.Expense;
 
 import dev.Lommebok.Lommebok.DTO.Category.Response.CategoryResponseDTO;
+import dev.Lommebok.Lommebok.DTO.Expense.Request.ExpenseRequestDTO;
 import dev.Lommebok.Lommebok.DTO.Expense.Response.ExpenseResponseDTO;
 import dev.Lommebok.Lommebok.Model.Category.CategoryModel;
 import dev.Lommebok.Lommebok.Model.Expense.ExpenseModel;
@@ -22,5 +23,16 @@ public class ExpenseMapper {
 
     private CategoryResponseDTO mapCategoryToDTO(CategoryModel categoryModel) {
         return new CategoryResponseDTO(categoryModel.getId(), categoryModel.getName(), categoryModel.getColor());
+    }
+
+    public ExpenseModel mapToModel(ExpenseRequestDTO expenseRequestDTO, CategoryModel category) {
+        ExpenseModel expenseModel = new ExpenseModel();
+        expenseModel.setTitle(expenseRequestDTO.getTitle());
+        expenseModel.setDescription(expenseRequestDTO.getDescription());
+        expenseModel.setAmount(expenseRequestDTO.getAmount());
+        expenseModel.setPaymentType(expenseRequestDTO.getPaymentType());
+        expenseModel.setSpentAt(expenseRequestDTO.getSpentAt());
+        expenseModel.setCategory(category);
+        return expenseModel;
     }
 }
