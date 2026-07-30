@@ -3,12 +3,20 @@ package dev.lommebok.lommebok.model.expense;
 import dev.lommebok.lommebok.enums.payment.PaymentType;
 import dev.lommebok.lommebok.model.category.CategoryModel;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "lommebok_expense")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExpenseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,72 +41,4 @@ public class ExpenseModel {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_type", nullable = false)
     private PaymentType paymentType;
-
-    public ExpenseModel() {}
-
-    public ExpenseModel(Long id, String title, String description, BigDecimal amount, LocalDate spentAt, CategoryModel category, PaymentType paymentType) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.amount = amount;
-        this.spentAt = spentAt;
-        this.category = category;
-        this.paymentType = paymentType;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public LocalDate getSpentAt() {
-        return spentAt;
-    }
-
-    public CategoryModel getCategory() {
-        return category;
-    }
-
-    public PaymentType getPaymentType() {
-        return paymentType;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public void setSpentAt(LocalDate spentAt) {
-        this.spentAt = spentAt;
-    }
-
-    public void setCategory(CategoryModel category) {
-        this.category = category;
-    }
-
-    public void setPaymentType(PaymentType paymentType) {
-        this.paymentType = paymentType;
-    }
 }
