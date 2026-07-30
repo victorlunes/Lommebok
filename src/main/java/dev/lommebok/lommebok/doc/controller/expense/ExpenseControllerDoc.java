@@ -1,10 +1,12 @@
 package dev.lommebok.lommebok.doc.controller.expense;
 
-import dev.lommebok.lommebok.dto.error.ErrorResponseDTO;
 import dev.lommebok.lommebok.dto.expense.request.ExpenseRequestDTO;
 import dev.lommebok.lommebok.dto.expense.response.ExpenseResponseDTO;
+import dev.lommebok.lommebok.infra.RestErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,24 +20,41 @@ import java.util.List;
         description = "Endpoint responsible for managing expenses"
 )
 public interface ExpenseControllerDoc {
+
     @Operation(
             summary = "List of expenses",
             description = "Endpoint for listing your expenses"
     )
     @ApiResponse(
-            responseCode = "200"
+            responseCode = "200",
+            description = "expenses retrieved successfully.",
+            content = @Content(
+                    array = @ArraySchema(schema = @Schema(implementation = ExpenseResponseDTO.class)),
+                    examples = @ExampleObject(
+                            name = "expenses",
+                            value = "[{\"id\": 1, \"title\": \"Almoço\", \"description\": \"Restaurante do trabalho\", "
+                                    + "\"amount\": 32.90, \"spentAt\": \"2026-07-15\", "
+                                    + "\"category\": {\"id\": 1, \"name\": \"Alimentação\", \"color\": \"#FF5733\"}, "
+                                    + "\"paymentType\": \"PIX\"}]"
+                    )
+            )
     )
     @ApiResponse(
             responseCode = "204",
-            description = "There are no expenses at the moment.",
+            description = "no expenses found.",
             content = @Content
     )
     @ApiResponse(
             responseCode = "500",
             description = "error retrieving expenses.",
-            content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "internal error",
+                            value = "{\"message\": \"Erro interno inesperado.\", \"status\": \"500 INTERNAL_SERVER_ERROR\"}"
+                    )
+            )
     )
-
     ResponseEntity<List<ExpenseResponseDTO>> getExpense();
 
     @Operation(
@@ -44,22 +63,45 @@ public interface ExpenseControllerDoc {
     )
     @ApiResponse(
             responseCode = "201",
-            description = "expense created successfully."
+            description = "expense created successfully.",
+            content = @Content(
+                    schema = @Schema(implementation = String.class),
+                    examples = @ExampleObject(value = "Expense created successfully")
+            )
     )
     @ApiResponse(
             responseCode = "400",
             description = "Invalid expense payload.",
-            content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "validation error",
+                            value = "{\"message\": \"Erro de validação\", \"status\": \"400 BAD_REQUEST\", "
+                                    + "\"errors\": [\"O título é obrigatório\", \"O valor é obrigatório\"]}"
+                    )
+            )
     )
     @ApiResponse(
             responseCode = "404",
             description = "category not found.",
-            content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "category not found",
+                            value = "{\"message\": \"Category not found.\", \"status\": \"404 NOT_FOUND\"}"
+                    )
+            )
     )
     @ApiResponse(
             responseCode = "500",
             description = "error creating expense.",
-            content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "internal error",
+                            value = "{\"message\": \"Erro interno inesperado.\", \"status\": \"500 INTERNAL_SERVER_ERROR\"}"
+                    )
+            )
     )
-    ResponseEntity<ExpenseResponseDTO> createExpense(@Valid ExpenseRequestDTO expenseRequestDTO);
+    ResponseEntity<String> createExpense(@Valid ExpenseRequestDTO expenseRequestDTO);
 }

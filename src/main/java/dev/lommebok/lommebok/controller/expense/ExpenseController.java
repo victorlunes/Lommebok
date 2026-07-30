@@ -23,17 +23,12 @@ public class ExpenseController implements ExpenseControllerDoc {
     @GetMapping("/all-expense")
     public ResponseEntity<List<ExpenseResponseDTO>> getExpense() {
         List<ExpenseResponseDTO> expense = expenseService.getAllExpense();
-
-        if (expense.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        }
-
         return ResponseEntity.status(HttpStatus.OK).body(expense);
     }
 
     @PostMapping("/new-expense")
-    public ResponseEntity<ExpenseResponseDTO> createExpense(@Valid @RequestBody ExpenseRequestDTO expenseRequestDTO) {
-        ExpenseResponseDTO createdExpense = expenseService.createNewExpense(expenseRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdExpense);
+    public ResponseEntity<String> createExpense(@Valid @RequestBody ExpenseRequestDTO expenseRequestDTO) {
+        expenseService.createNewExpense(expenseRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Expense created successfully");
     }
 }

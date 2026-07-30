@@ -2,6 +2,8 @@ package dev.lommebok.lommebok.service.expense;
 
 import dev.lommebok.lommebok.dto.expense.request.ExpenseRequestDTO;
 import dev.lommebok.lommebok.dto.expense.response.ExpenseResponseDTO;
+import dev.lommebok.lommebok.exception.expense.CategoryNotFoundException;
+import dev.lommebok.lommebok.exception.expense.NoExpensesFoundException;
 import dev.lommebok.lommebok.mapper.expense.ExpenseMapper;
 import dev.lommebok.lommebok.model.category.CategoryModel;
 import dev.lommebok.lommebok.model.expense.ExpenseModel;
@@ -27,16 +29,20 @@ public class ExpenseService {
     public List<ExpenseResponseDTO> getAllExpense() {
         List<ExpenseModel> expense = expenseRepository.findAll();
 
+        if (expense.isEmpty()) {
+            throw new NoExpensesFoundException();
+        }
+
         return expense.stream().map(e -> expenseMapper.mapToDTO(e)).toList();
     }
 
-    public ExpenseResponseDTO createNewExpense(ExpenseRequestDTO expenseRequestDTO) {
+    public void createNewExpense(ExpenseRequestDTO expenseRequestDTO) {
         CategoryModel category = categoryRepository.findById(expenseRequestDTO.getCategoryId())
-                .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+                .orElseThrow(CategoryNotFoundException::new);
 
         ExpenseModel expenseModel = expenseMapper.mapToModel(expenseRequestDTO, category);
         ExpenseModel savedExpense = expenseRepository.save(expenseModel);
 
-        return expenseMapper.mapToDTO(savedExpense);
+        expenseMapper.mapToDTO(savedExpense);
     }
 }
