@@ -31,4 +31,10 @@ public class ExpenseController implements ExpenseControllerDoc {
         expenseService.createNewExpense(expenseRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("Expense created successfully");
     }
+
+    @DeleteMapping("/delete-expense/{id}")
+    public ResponseEntity<String> deleteExpense(@PathVariable("id") Long id) {
+        expenseService.deleteExpense(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Expense deleted successfully");
+    }
 }

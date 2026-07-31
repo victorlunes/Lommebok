@@ -1,4 +1,4 @@
-package dev.lommebok.lommebok.exception.expense;
+package dev.lommebok.lommebok.exception.category;
 
 public class CategoryNotFoundException extends RuntimeException {
     public CategoryNotFoundException() {

@@ -2,23 +2,23 @@ package dev.lommebok.lommebok.service.expense;
 
 import dev.lommebok.lommebok.dto.expense.request.ExpenseRequestDTO;
 import dev.lommebok.lommebok.dto.expense.response.ExpenseResponseDTO;
-import dev.lommebok.lommebok.exception.expense.CategoryNotFoundException;
+import dev.lommebok.lommebok.exception.category.CategoryNotFoundException;
+import dev.lommebok.lommebok.exception.expense.ExpenseNotFoundException;
 import dev.lommebok.lommebok.exception.expense.NoExpensesFoundException;
 import dev.lommebok.lommebok.mapper.expense.ExpenseMapper;
 import dev.lommebok.lommebok.model.category.CategoryModel;
 import dev.lommebok.lommebok.model.expense.ExpenseModel;
 import dev.lommebok.lommebok.repository.category.CategoryRepository;
 import dev.lommebok.lommebok.repository.expense.ExpenseRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ExpenseService {
-    private ExpenseRepository expenseRepository;
-    private CategoryRepository categoryRepository;
-    private ExpenseMapper expenseMapper;
+    private final ExpenseRepository expenseRepository;
+    private final CategoryRepository categoryRepository;
+    private final ExpenseMapper expenseMapper;
 
     public ExpenseService(ExpenseRepository expenseRepository, CategoryRepository categoryRepository, ExpenseMapper expenseMapper) {
         this.expenseRepository = expenseRepository;
@@ -44,5 +44,12 @@ public class ExpenseService {
         ExpenseModel savedExpense = expenseRepository.save(expenseModel);
 
         expenseMapper.mapToDTO(savedExpense);
+    }
+
+    public void deleteExpense(Long id) {
+        ExpenseModel findExpense = expenseRepository.findById(id)
+                .orElseThrow(ExpenseNotFoundException::new);
+
+        expenseRepository.delete(findExpense);
     }
 }

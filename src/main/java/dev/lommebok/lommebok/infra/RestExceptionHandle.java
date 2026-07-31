@@ -1,6 +1,7 @@
 package dev.lommebok.lommebok.infra;
 
-import dev.lommebok.lommebok.exception.expense.CategoryNotFoundException;
+import dev.lommebok.lommebok.exception.category.CategoryNotFoundException;
+import dev.lommebok.lommebok.exception.expense.ExpenseNotFoundException;
 import dev.lommebok.lommebok.exception.expense.NoExpensesFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,12 @@ public class RestExceptionHandle  extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NoExpensesFoundException.class)
     private ResponseEntity<Void> noExpensesFound(NoExpensesFoundException exception) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @ExceptionHandler(ExpenseNotFoundException.class)
+    private ResponseEntity<RestErrorMessage> expenseNotFound(ExpenseNotFoundException exception) {
+        RestErrorMessage response = new RestErrorMessage(exception.getMessage(), HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(Exception.class)
