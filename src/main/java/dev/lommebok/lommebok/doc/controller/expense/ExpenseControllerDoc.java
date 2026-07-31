@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -137,4 +138,46 @@ public interface ExpenseControllerDoc {
             )
     )
     ResponseEntity<String> deleteExpense(@PathVariable("id") Long id);
+
+    @Operation(
+            summary = "Update Expense",
+            description = "Endpoint for updating your expense"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "expense updated successfully.",
+            content = @Content(
+                    schema = @Schema(implementation = ExpenseResponseDTO.class),
+                    examples = @ExampleObject(
+                            name = "expense",
+                            value = "{\"id\": 1, \"title\": \"Almoço\", \"description\": \"Restaurante do trabalho\", "
+                                    + "\"amount\": 32.90, \"spentAt\": \"2026-07-15\", "
+                                    + "\"category\": {\"id\": 1, \"name\": \"Alimentação\", \"color\": \"#FF5733\"}, "
+                                    + "\"paymentType\": \"PIX\"}"
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "expense not found.",
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "expense not found",
+                            value = "{\"message\": \"Expense not found.\", \"status\": \"404 NOT_FOUND\"}"
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "500",
+            description = "error updating expense.",
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "internal error",
+                            value = "{\"message\": \"Erro interno inesperado.\", \"status\": \"500 INTERNAL_SERVER_ERROR\"}"
+                    )
+            )
+    )
+    ResponseEntity<ExpenseResponseDTO> updateExpense(@PathVariable("id") Long id, @RequestBody ExpenseRequestDTO expenseRequestDTO);
 }
