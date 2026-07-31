@@ -52,4 +52,18 @@ public class ExpenseService {
 
         expenseRepository.delete(findExpense);
     }
+
+    public ExpenseResponseDTO updateExpense(Long id, ExpenseRequestDTO expenseRequestDTO) {
+        ExpenseModel findExpense = expenseRepository.findById(id)
+                .orElseThrow(ExpenseNotFoundException::new);
+
+        findExpense.setTitle(expenseRequestDTO.getTitle());
+        findExpense.setDescription(expenseRequestDTO.getDescription());
+        findExpense.setAmount(expenseRequestDTO.getAmount());
+        findExpense.setPaymentType(expenseRequestDTO.getPaymentType());
+        findExpense.setSpentAt(expenseRequestDTO.getSpentAt());
+        findExpense.getCategory().setId(expenseRequestDTO.getCategoryId());
+
+        return expenseMapper.mapToDTO(expenseRepository.save(findExpense));
+    }
 }
