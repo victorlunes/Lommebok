@@ -29,10 +29,6 @@ public class ExpenseService {
     public List<ExpenseResponseDTO> getAllExpense() {
         List<ExpenseModel> expense = expenseRepository.findAll();
 
-        if (expense.isEmpty()) {
-            throw new NoExpensesFoundException();
-        }
-
         return expense.stream().map(e -> expenseMapper.mapToDTO(e)).toList();
     }
 
