@@ -17,21 +17,21 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExpenseRequestDTO {
-    @NotBlank(message = "O título é obrigatório")
+    @NotBlank(message = "Title is mandatory")
     private String title;
 
     private String description;
 
-    @NotNull(message = "O valor é obrigatório")
-    @Positive(message = "O valor deve ser maior que zero")
+    @NotNull(message = "Amount is mandatory")
+    @Positive(message = "Amount must be greater than zero")
     private BigDecimal amount;
 
-    @NotNull(message = "A data da despesa é obrigatória")
+    @NotNull(message = "Expense date is mandatory")
     private LocalDate spentAt;
 
-    @NotNull(message = "A categoria é obrigatória")
+    @NotNull(message = "Category is mandatory")
     private Long categoryId;
 
-    @NotNull(message = "O tipo de pagamento é obrigatório")
+    @NotNull(message = "Payment type is mandatory")
     private PaymentType paymentType;
 }

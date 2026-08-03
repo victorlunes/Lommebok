@@ -79,7 +79,7 @@ public interface ExpenseControllerDoc {
                     examples = @ExampleObject(
                             name = "validation error",
                             value = "{\"message\": \"Erro de validação\", \"status\": \"400 BAD_REQUEST\", "
-                                    + "\"errors\": [\"O título é obrigatório\", \"O valor é obrigatório\"]}"
+                                    + "\"errors\": [\"Title is mandatory\", \"Amount is mandatory\"]}"
                     )
             )
     )
