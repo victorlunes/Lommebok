@@ -1,4 +1,4 @@
-package dev.lommebok.lommebok.controller.category;
+package dev.lommebok.lommebok.category;
 
 import dev.lommebok.lommebok.doc.controller.category.CategoryControllerDoc;
 import dev.lommebok.lommebok.dto.category.response.CategoryResponseDTO;
