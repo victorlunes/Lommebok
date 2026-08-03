@@ -1,5 +1,6 @@
 package dev.lommebok.lommebok.mapper.category;
 
+import dev.lommebok.lommebok.dto.category.request.CategoryRequestDTO;
 import dev.lommebok.lommebok.dto.category.response.CategoryResponseDTO;
 import dev.lommebok.lommebok.model.category.CategoryModel;
 import dev.lommebok.lommebok.model.expense.ExpenseModel;
@@ -7,11 +8,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CategoryMapper {
-    public CategoryModel mapToModel(CategoryResponseDTO categoryResponseDTO) {
+    public CategoryModel mapToModel(CategoryRequestDTO categoryRequestDTO) {
         CategoryModel categoryModel = new CategoryModel();
-        categoryModel.setId(categoryResponseDTO.getId());
-        categoryModel.setName(categoryResponseDTO.getName());
-        categoryModel.setColor(categoryResponseDTO.getColor());
+        categoryModel.setName(categoryRequestDTO.getName());
+        categoryModel.setColor(categoryRequestDTO.getColor());
 
         return categoryModel;
     }

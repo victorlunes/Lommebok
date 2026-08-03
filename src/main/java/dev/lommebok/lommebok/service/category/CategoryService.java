@@ -1,5 +1,6 @@
 package dev.lommebok.lommebok.service.category;
 
+import dev.lommebok.lommebok.dto.category.request.CategoryRequestDTO;
 import dev.lommebok.lommebok.dto.category.response.CategoryResponseDTO;
 import dev.lommebok.lommebok.mapper.category.CategoryMapper;
 import dev.lommebok.lommebok.model.category.CategoryModel;
@@ -22,5 +23,10 @@ public class CategoryService {
         List<CategoryModel> allCategory = categoryRepository.findAll();
 
         return allCategory.stream().map(c -> categoryMapper.mapToDTO(c)).toList();
+    }
+
+    public void createNewCategory(CategoryRequestDTO categoryRequestDTO) {
+        CategoryModel newCategory = categoryMapper.mapToModel(categoryRequestDTO);
+        categoryRepository.save(newCategory);
     }
 }
