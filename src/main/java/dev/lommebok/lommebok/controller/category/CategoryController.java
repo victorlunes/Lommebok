@@ -30,4 +30,10 @@ public class CategoryController implements CategoryControllerDoc {
         categoryService.createNewCategory(categoryRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("Category created successfully");
     }
+
+    @PutMapping("/update-category/{id}")
+    public ResponseEntity<String> updateCategory(@PathVariable("id") Long idCategory, @Valid @RequestBody CategoryRequestDTO categoryRequestDTO) {
+        categoryService.categoryUpdate(categoryRequestDTO, idCategory);
+        return  ResponseEntity.status(HttpStatus.OK).body("Category updated successfully");
+    }
 }

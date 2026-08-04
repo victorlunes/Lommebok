@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -90,4 +91,52 @@ public interface CategoryControllerDoc {
             )
     )
     ResponseEntity<String> newCategory(@Valid CategoryRequestDTO categoryRequestDTO);
+
+    @Operation(
+            summary = "Update a category",
+            description = "Endpoint for updating an existing category"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "category updated successfully.",
+            content = @Content(
+                    schema = @Schema(implementation = String.class),
+                    examples = @ExampleObject(value = "Category updated successfully")
+            )
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Invalid category payload.",
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "validation error",
+                            value = "{\"message\": \"Erro de validação\", \"status\": \"400 BAD_REQUEST\", "
+                                    + "\"errors\": [\"Name the category is obligatory\", \"Color the category is obligatory\"]}"
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "category not found.",
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "category not found",
+                            value = "{\"message\": \"Category not found.\", \"status\": \"404 NOT_FOUND\"}"
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "500",
+            description = "error updating category.",
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "internal error",
+                            value = "{\"message\": \"Erro interno inesperado.\", \"status\": \"500 INTERNAL_SERVER_ERROR\"}"
+                    )
+            )
+    )
+    ResponseEntity<String> updateCategory(@PathVariable("id") Long idCategory, @Valid CategoryRequestDTO categoryRequestDTO);
 }
