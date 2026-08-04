@@ -1,0 +1,1 @@
+ALTER TABLE lommebok_expense MODIFY COLUMN spent_at DATETIME NOT NULL;

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "lommebok_expense")
@@ -32,7 +32,7 @@ public class ExpenseModel {
     private BigDecimal amount;
 
     @Column(name = "spent_at", nullable = false)
-    private LocalDate spentAt;
+    private LocalDateTime spentAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)

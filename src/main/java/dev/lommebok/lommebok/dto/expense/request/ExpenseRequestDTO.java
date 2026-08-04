@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -27,7 +27,7 @@ public class ExpenseRequestDTO {
     private BigDecimal amount;
 
     @NotNull(message = "Expense date is mandatory")
-    private LocalDate spentAt;
+    private LocalDateTime spentAt;
 
     @NotNull(message = "Category is mandatory")
     private Long categoryId;

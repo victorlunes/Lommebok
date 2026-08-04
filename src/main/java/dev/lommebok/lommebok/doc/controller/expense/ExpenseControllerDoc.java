@@ -35,7 +35,7 @@ public interface ExpenseControllerDoc {
                     examples = @ExampleObject(
                             name = "expenses",
                             value = "[{\"id\": 1, \"title\": \"Almoço\", \"description\": \"Restaurante do trabalho\", "
-                                    + "\"amount\": 32.90, \"spentAt\": \"2026-07-15\", "
+                                    + "\"amount\": 32.90, \"spentAt\": \"2026-07-15T12:30:00\", "
                                     + "\"category\": {\"id\": 1, \"name\": \"Alimentação\", \"color\": \"#FF5733\"}, "
                                     + "\"paymentType\": \"PIX\"}]"
                     )
@@ -151,7 +151,7 @@ public interface ExpenseControllerDoc {
                     examples = @ExampleObject(
                             name = "expense",
                             value = "{\"id\": 1, \"title\": \"Almoço\", \"description\": \"Restaurante do trabalho\", "
-                                    + "\"amount\": 32.90, \"spentAt\": \"2026-07-15\", "
+                                    + "\"amount\": 32.90, \"spentAt\": \"2026-07-15T12:30:00\", "
                                     + "\"category\": {\"id\": 1, \"name\": \"Alimentação\", \"color\": \"#FF5733\"}, "
                                     + "\"paymentType\": \"PIX\"}"
                     )
