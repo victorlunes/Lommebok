@@ -139,4 +139,52 @@ public interface CategoryControllerDoc {
             )
     )
     ResponseEntity<String> updateCategory(@PathVariable("id") Long idCategory, @Valid CategoryRequestDTO categoryRequestDTO);
+
+    @Operation(
+            summary = "Delete a category",
+            description = "Endpoint for deleting an existing category"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "category deleted successfully.",
+            content = @Content(
+                    schema = @Schema(implementation = String.class),
+                    examples = @ExampleObject(value = "Category deleted successfully")
+            )
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "category not found.",
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "category not found",
+                            value = "{\"message\": \"Category not found.\", \"status\": \"404 NOT_FOUND\"}"
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "409",
+            description = "category is associated with existing expenses.",
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "category in use",
+                            value = "{\"message\": \"This category is associated with existing expenses. "
+                                    + "Please delete the expenses before deleting the category.\", \"status\": \"409 CONFLICT\"}"
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "500",
+            description = "error deleting category.",
+            content = @Content(
+                    schema = @Schema(implementation = RestErrorMessage.class),
+                    examples = @ExampleObject(
+                            name = "internal error",
+                            value = "{\"message\": \"Erro interno inesperado.\", \"status\": \"500 INTERNAL_SERVER_ERROR\"}"
+                    )
+            )
+    )
+    ResponseEntity<String> deleteCategory(@PathVariable("id") Long idCategory);
 }

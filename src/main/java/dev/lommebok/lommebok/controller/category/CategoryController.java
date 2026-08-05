@@ -36,4 +36,10 @@ public class CategoryController implements CategoryControllerDoc {
         categoryService.categoryUpdate(categoryRequestDTO, idCategory);
         return  ResponseEntity.status(HttpStatus.OK).body("Category updated successfully");
     }
+
+    @DeleteMapping("/delete-category/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable("id") Long idCategory) {
+        categoryService.categoryDelete(idCategory);
+        return  ResponseEntity.status(HttpStatus.OK).body("Category deleted successfully");
+    }
 }

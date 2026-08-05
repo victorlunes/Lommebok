@@ -41,7 +41,6 @@ public class ExpenseController implements ExpenseControllerDoc {
     @PutMapping("/update-expense/{id}")
     public ResponseEntity<ExpenseResponseDTO> updateExpense(@PathVariable("id") Long id, @RequestBody ExpenseRequestDTO expenseRequestDTO) {
         ExpenseResponseDTO expenseUpdate = expenseService.updateExpense(id, expenseRequestDTO);
-
         return ResponseEntity.status(HttpStatus.OK).body(expenseUpdate);
     }
 }

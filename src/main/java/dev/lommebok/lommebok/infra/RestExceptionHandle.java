@@ -1,5 +1,6 @@
 package dev.lommebok.lommebok.infra;
 
+import dev.lommebok.lommebok.exception.category.CategoryExistInExpenses;
 import dev.lommebok.lommebok.exception.category.CategoryNotFoundException;
 import dev.lommebok.lommebok.exception.expense.ExpenseNotFoundException;
 import dev.lommebok.lommebok.exception.expense.NoExpensesFoundException;
@@ -35,6 +36,13 @@ public class RestExceptionHandle  extends ResponseEntityExceptionHandler {
         RestErrorMessage response = new RestErrorMessage(exception.getMessage(), HttpStatus.NOT_FOUND);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
+
+    @ExceptionHandler(CategoryExistInExpenses.class)
+    private ResponseEntity<RestErrorMessage> categoryExistInExpenses(CategoryExistInExpenses exception) {
+        RestErrorMessage response = new RestErrorMessage(exception.getMessage(), HttpStatus.CONFLICT);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
 
     @ExceptionHandler(Exception.class)
     private ResponseEntity<RestErrorMessage> internalServerError(Exception exception) {
