@@ -7,6 +7,8 @@ import dev.lommebok.lommebok.model.category.CategoryModel;
 import dev.lommebok.lommebok.model.expense.ExpenseModel;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ExpenseMapper {
     public ExpenseResponseDTO mapToDTO(ExpenseModel expenseModel) {
@@ -34,5 +36,11 @@ public class ExpenseMapper {
         expenseModel.setSpentAt(expenseRequestDTO.getSpentAt());
         expenseModel.setCategory(category);
         return expenseModel;
+    }
+
+    public List<ExpenseResponseDTO> toExpenseListResponse(List<ExpenseModel> expenseModels) {
+        return expenseModels.stream()
+                .map(expenseModel -> this.mapToDTO(expenseModel))
+                .toList();
     }
 }
