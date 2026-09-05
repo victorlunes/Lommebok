@@ -1,4 +1,15 @@
 package dev.lommebok.lommebok.dto.user.request;
 
-public record LoginRequest(String email, String password) {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class LoginRequest {
+    private String email;
+    private String password;
 }

@@ -11,9 +11,9 @@ public class UserMapper {
     public UserModel toUser(UserRequest userRequest) {
         UserModel user = new UserModel();
 
-        user.setName(userRequest.name());
-        user.setEmail(userRequest.email());
-        user.setPassword(userRequest.password());
+        user.setName(userRequest.getName());
+        user.setEmail(userRequest.getEmail());
+        user.setPassword(userRequest.getPassword());
 
         return user;
     }

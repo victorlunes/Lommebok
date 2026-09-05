@@ -1,4 +1,16 @@
 package dev.lommebok.lommebok.dto.user.response;
 
-public record UserResponse(Long id, String name, String email) {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserResponse {
+    private Long id;
+    private String name;
+    private String email;
 }
