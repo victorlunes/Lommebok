@@ -1,60 +1,63 @@
 package dev.lommebok.lommebok.infra;
 
+import dev.lommebok.lommebok.exception.user.UsernameOrPasswordInvalidException;
 import dev.lommebok.lommebok.exception.category.CategoryExistInExpenses;
 import dev.lommebok.lommebok.exception.category.CategoryNotFoundException;
 import dev.lommebok.lommebok.exception.expense.ExpenseNotFoundException;
 import dev.lommebok.lommebok.exception.expense.NoExpensesFoundException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-@ControllerAdvice
-public class RestExceptionHandle  extends ResponseEntityExceptionHandler {
+@RestControllerAdvice
+public class RestExceptionHandle {
+
+    @ExceptionHandler(UsernameOrPasswordInvalidException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String handleNotFoundException(UsernameOrPasswordInvalidException exception) {
+        return exception.getMessage();
+    }
 
     @ExceptionHandler(CategoryNotFoundException.class)
-    private ResponseEntity<RestErrorMessage> categoryNotFound(CategoryNotFoundException exception) {
+    public ResponseEntity<RestErrorMessage> categoryNotFound(CategoryNotFoundException exception) {
         RestErrorMessage response = new RestErrorMessage(exception.getMessage(), HttpStatus.NOT_FOUND);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(NoExpensesFoundException.class)
-    private ResponseEntity<Void> noExpensesFound(NoExpensesFoundException exception) {
+    public ResponseEntity<Void> noExpensesFound(NoExpensesFoundException exception) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @ExceptionHandler(ExpenseNotFoundException.class)
-    private ResponseEntity<RestErrorMessage> expenseNotFound(ExpenseNotFoundException exception) {
+    public ResponseEntity<RestErrorMessage> expenseNotFound(ExpenseNotFoundException exception) {
         RestErrorMessage response = new RestErrorMessage(exception.getMessage(), HttpStatus.NOT_FOUND);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(CategoryExistInExpenses.class)
-    private ResponseEntity<RestErrorMessage> categoryExistInExpenses(CategoryExistInExpenses exception) {
+    public ResponseEntity<RestErrorMessage> categoryExistInExpenses(CategoryExistInExpenses exception) {
         RestErrorMessage response = new RestErrorMessage(exception.getMessage(), HttpStatus.CONFLICT);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
 
     @ExceptionHandler(Exception.class)
-    private ResponseEntity<RestErrorMessage> internalServerError(Exception exception) {
+    public ResponseEntity<RestErrorMessage> internalServerError(Exception exception) {
         RestErrorMessage response = new RestErrorMessage(
                 "Erro interno inesperado.", HttpStatus.INTERNAL_SERVER_ERROR);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex, HttpHeaders headers,
-            HttpStatusCode status, WebRequest request) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex) {
 
         List<String> errors = ex.getFieldErrors().stream()
                 .map(FieldError::getDefaultMessage)
@@ -63,6 +66,6 @@ public class RestExceptionHandle  extends ResponseEntityExceptionHandler {
         RestErrorMessage response = new RestErrorMessage(
                 "Erro de validação", HttpStatus.BAD_REQUEST, errors);
 
-        return ResponseEntity.status(status).body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }

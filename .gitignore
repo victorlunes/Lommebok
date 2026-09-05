@@ -35,3 +35,6 @@ build/
 
 ### MCP ###
 .mcp.json
+
+### Local environment/secrets ###
+.env

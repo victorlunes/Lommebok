@@ -28,7 +28,7 @@ public class UserModel implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return email;
     }
 
     @Override
